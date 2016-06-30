@@ -26,11 +26,14 @@ app.use(session({
 
 const GitHubConnector = require('../lib/unifile-github.js');
 const DropboxConnector = require('../lib/unifile-dropbox.js');
+const FtpConnector = require('../lib/unifile-ftp.js');
 const ghconnector = new GitHubConnector({clientId: 'b4e46028bf36d871f68d', clientSecret: 'c39806c4d0906cfeaac932012996a1919475cc78', state: 'aaathub'});
 const dbxconnector = new DropboxConnector({clientId: '37mo489tld3rdi2', clientSecret: 'kqfzd11vamre6xr', state: 'aaathub', redirectUri: 'http://localhost:6805/dropbox/oauth-callback'});
+const ftpconnector = new FtpConnector({redirectUri: 'http://localhost:6805/ftp/signin'});
 // Register connector
 unifile.use(ghconnector);
 unifile.use(dbxconnector);
+unifile.use(ftpconnector);
 
 // Register connector methods
 app.post('/:connector/authorize', function(req, res) {
@@ -139,6 +142,10 @@ app.get('/:connector/oauth-callback', function(req, res) {
     console.error(err);
     res.status(500).send(err);
   });
+});
+
+app.get('/ftp/signin', function(req, res){
+  res.sendFile(__dirname + '/public/ftp_login.html');
 });
 
 // server 'loop'
