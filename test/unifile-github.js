@@ -8,7 +8,6 @@ const proxyquire = require('proxyquire').noCallThru();
 /* eslint-disable complexity */
 const requireStub = {
   request: function(opts, callback) {
-    console.log('opts', opts);
     const res = {headers: {}};
     const auth = opts.headers ? opts.headers.Authorization : null;
     const endPoint = opts.url.split('/').pop().split('?').shift();
