@@ -152,36 +152,6 @@ describe('Unifile class', function() {
     });
   });
 
-  describe('setBasicAuth()', function() {
-    var unifile;
-    beforeEach('Instanciation', function() {
-      unifile = new Unifile();
-    });
-
-    it('throws an error if connectorName is undefined', function() {
-      const fn = function() { unifile.setBasicAuth({});};
-      expect(fn).to.throw(/You should specify a connector name!/);
-    });
-
-    it('throws an error if connectorName is not registered', function() {
-      const fn = function() { unifile.setBasicAuth({}, 'test');};
-      expect(fn).to.throw('Unknown connector');
-    });
-
-    it('throws an error if connector does not implement it', function() {
-      const connector = {name: 'test'};
-      unifile.use(connector);
-      const fn = function() { unifile.setBasicAuth({}, connector.name); };
-      expect(fn).to.throw('This connector does not implement');
-    });
-
-    it('returns a promise of the setBasicAuth function of the connector', function() {
-      const connector = {name: 'test', setBasicAuth: function() {return new Promise.resolve();}};
-      unifile.use(connector);
-      expect(unifile.setBasicAuth({}, connector.name)).to.be.an.instanceof(Promise);
-    });
-  });
-
   describe('setAccessToken()', function() {
     var unifile;
     beforeEach('Instanciation', function() {
